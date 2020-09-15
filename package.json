@@ -1,0 +1,22 @@
+{
+  "name": "html-stream",
+  "version": "0.0.1",
+  "description": "A demo of client-side HTML templating using a Service Worker and ReadableStream",
+  "main": "index.js",
+  "scripts": {
+    "start": "ws -p 8080 --spa index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/DannyMoerkerke/html-stream.git"
+  },
+  "author": "Danny Moerkerke <danny@dannymoerkerke.nl>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DannyMoerkerke/html-stream/issues"
+  },
+  "homepage": "https://github.com/DannyMoerkerke/html-stream#readme",
+  "devDependencies": {
+    "local-web-server": "^4.2.1"
+  }
+}

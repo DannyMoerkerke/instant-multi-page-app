@@ -1,0 +1,15 @@
+<h2>Client-side templating</h2>
+
+<p>
+  This is a demo of client-side HTML templating using a Service Worker and ReadableStream.
+</p>
+
+<p>
+  Each request is intercepted by the Service Worker which will construct the page consisting of a header,
+  footer and the content. These parts are all separate HTML templates that will be fetched separately.
+</p>
+
+<p>
+  To make sure that content is shown to the user as soon as it becomes available, a ReadableStream is used to
+  stream content to the browser.
+</p>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <base href="/">
+    <title>html-stream: Client-side templating</title>
+
+    <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+    <link rel='shortcut icon' type='image/x-icon' href='favicon.ico'>
+    <link rel="stylesheet" href="src/css/styles.css">
+  </head>
+  <body>
+    <main>
+      <header>
+        <nav>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <section id="content">
+        <h2>home</h2>
+      </section>
+
+      <footer></footer>
+    </main>
+
+    <script type="module">
+      const init = async () => {
+        const routes = [
+          {
+            url: '/',
+            template: '/src/templates/home.html',
+            script: '/src/templates/home.js.html'
+          },
+          {
+            url: '/about',
+            template: '/src/templates/about.html',
+            script: '/src/templates/about.js.html'
+          },
+          {
+            url: '/contact',
+            template: '/src/templates/contact.html',
+            script: '/src/templates/contact.js.html'
+          }
+        ];
+
+        const {pathname} = new URL(location.href);
+
+        const matchedRoute = routes.find(({url}) => pathname === url);
+
+        const [template, script] = await Promise.all([
+          fetch(matchedRoute.template),
+          fetch(matchedRoute.script)
+        ]);
+
+        const html = `${await template.text()}${await script.text()}`;
+
+        document.querySelector('#content').innerHTML = html;
+      };
+
+      init();
+    </script>
+
+    <script src="src/js/index.js"></script>
+  </body>
+</html>
