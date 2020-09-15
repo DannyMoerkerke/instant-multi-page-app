@@ -1,21 +1,21 @@
 {
-  "name": "html-stream",
+  "name": "instant-multi-page-app",
   "version": "0.0.1",
-  "description": "A demo of client-side HTML templating using a Service Worker and ReadableStream",
+  "description": "A demo of a blazing fast multi-page app using modern web technology",
   "main": "index.js",
   "scripts": {
     "start": "ws -p 8080 --spa index.html"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/DannyMoerkerke/html-stream.git"
+    "url": "git+ssh://git@github.com/DannyMoerkerke/instant-multi-page-app.git"
   },
   "author": "Danny Moerkerke <danny@dannymoerkerke.nl>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/DannyMoerkerke/html-stream/issues"
+    "url": "https://github.com/DannyMoerkerke/instant-multi-page-app/issues"
   },
-  "homepage": "https://github.com/DannyMoerkerke/html-stream#readme",
+  "homepage": "https://github.com/DannyMoerkerke/instant-multi-page-app#readme",
   "devDependencies": {
     "local-web-server": "^4.2.1"
   }
