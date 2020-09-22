@@ -1,15 +1,39 @@
-<h2>Client-side templating</h2>
+<section id="content">
+  <h2>An instant multi-page app</h2>
 
-<p>
-  This is a demo of client-side HTML templating using a Service Worker and ReadableStream.
-</p>
+  <p>
+    This is a demo of a instantly loading multi-page app, using modern web technology like Service Worker,
+    ReadableStream,
+    CSS Containment and Portals.
+  </p>
 
-<p>
-  Each request is intercepted by the Service Worker which will construct the page consisting of a header,
-  footer and the content. These parts are all separate HTML templates that will be fetched separately.
-</p>
+  <p>
+    The purpose is to demonstrate that a multi-page app can load just as fast as a single-page app, without all the
+    added complexity that a single-page app brings.
+  </p>
 
-<p>
-  To make sure that content is shown to the user as soon as it becomes available, a ReadableStream is used to
-  stream content to the browser.
-</p>
+  <p>
+    Each request is intercepted by the Service Worker which then constructs each page from a header, footer and the
+    page content. These parts are all separate HTML templates that are fetched separately and then put together to form
+    a page.
+  </p>
+
+  <p>
+    To make sure that content is shown to the user as soon as possible, a ReadableStream is used to stream content to
+    the browser. This means that the browser doesn't need to wait for the whole response to arrive, but can start
+    rendering content as soon as it becomes available.
+  </p>
+
+  <p>
+    The Service Worker also caches all assets locally so these no longer need to be fetched from the network.
+  </p>
+
+  <p>
+    The result is that each page loads instantly, just like a single-page app, even though the browser performs a full
+    page reload for each page.
+  </p>
+
+  <p>
+    This effectively reduces single-page apps to a polyfill.
+  </p>
+</section>

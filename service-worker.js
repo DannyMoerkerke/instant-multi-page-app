@@ -1,24 +1,36 @@
-self.importScripts('./routes.js');
-
 const staticFiles = [
   'index.html',
   'routes.js',
   'src/js/index.js',
   'src/css/styles.css',
+  'src/img/IMG_0791.png',
+  'src/img/IMG_0829.png',
+  'src/img/IMG_0848.png',
+  'src/img/IMG_0860.png',
+  'src/img/IMG_0924.png',
+  'src/img/IMG_0927.png',
+  'src/img/IMG_0955.png',
+  'src/img/IMG_0966.png',
   'src/templates/header.html',
   'src/templates/footer.html',
   'src/templates/home.html',
   'src/templates/home.js.html',
-  'src/templates/about.html',
-  'src/templates/about.js.html',
+  'src/templates/readablestream.html',
+  'src/templates/readablestream.js.html',
+  'src/templates/serviceworker.html',
+  'src/templates/serviceworker.js.html',
   'src/templates/contact.html',
-  'src/templates/contact.js.html'
+  'src/templates/contact.js.html',
+  'src/templates/images.html',
+  'src/templates/images.js.html'
 ];
 
 const urls = [
-  '/',
-  '/about',
-  '/contact',
+  // '/',
+  // '/readablestream',
+  // '/serviceworker',
+  // '/contact',
+  // '/images'
 ];
 
 const filesToCache = [
@@ -26,30 +38,46 @@ const filesToCache = [
   ...urls
 ];
 
-const version = 3;
+const version = 41;
 const cacheName = `html_cache`;
 const debug = true;
 
-const log = debug ? console.log.bind(console) : () => {
-};
+const log = debug ? console.log.bind(console) : () => {};
 
-// const routes = [
-//   {
-//     url: '/',
-//     template: '/src/templates/home.html',
-//     script: '/src/templates/home.js.html'
-//   },
-//   {
-//     url: '/about',
-//     template: '/src/templates/about.html',
-//     script: '/src/templates/about.js.html'
-//   },
-//   {
-//     url: '/contact',
-//     template: '/src/templates/contact.html',
-//     script: '/src/templates/contact.js.html'
-//   }
-// ];
+const routes = [
+  {
+    url: '/',
+    template: '/src/templates/home.html',
+    script: '/src/templates/home.js.html'
+  },
+  {
+    url: '/readablestream',
+    template: '/src/templates/readablestream.html',
+    script: '/src/templates/readablestream.js.html'
+  },
+  {
+    url: '/serviceworker',
+    template: '/src/templates/serviceworker.html',
+    script: '/src/templates/serviceworker.js.html'
+  },
+  {
+    url: '/contact',
+    template: '/src/templates/contact.html',
+    script: '/src/templates/contact.js.html'
+  },
+  {
+    url: '/images',
+    template: '/src/templates/images.html',
+    script: '/src/templates/images.js.html'
+  },
+  {
+    url: '/blog',
+    apiUrl: 'https://3jrnxopv87.execute-api.us-east-1.amazonaws.com/production/blogpostings/writer/danny',
+    compile: data => {
+      return `${data.map(({title, intro, body}) => `${title} ${intro} ${body}`).join('')}`;
+    }
+  }
+];
 
 const headerTemplate = '/src/templates/header.html';
 const footerTemplate = '/src/templates/footer.html';
@@ -112,41 +140,76 @@ const cacheHtmlResponse = async response => {
   }
 };
 
+const getCachedHtmlResponse = ({url, compile, apiUrl}) => {
+  log('finding cached HTML response', url);
+
+  return new Promise((resolve, reject) => {
+    openStore(IDBConfig.store)
+    .then(store => {
+      const cachedRequest = store.get(url);
+
+      let html;
+
+      cachedRequest.onsuccess = async () => {
+        if(cachedRequest.result !== undefined) {
+          log('found cached HTML response', cachedRequest);
+          html = new Blob([cachedRequest.result.html], {type: 'text/html'});
+        }
+        else {
+          log('compiling html response');
+
+          const data = await (await fetch(apiUrl)).json();
+          html = compile(data);
+
+          cacheHtmlResponse({url, html});
+        }
+
+        return resolve(new Response(html, {headers: {'Content-Type': 'text/html'}}));
+      };
+
+      cachedRequest.onerror = e => {
+        log('cached HTML response not found', e, cachedRequest.error);
+
+        return reject(cachedRequest.error);
+      };
+    });
+  });
+};
+
 const getStreamedHtmlResponse = (url, routeMatch) => {
   log('finding cached HTML response', url);
 
   const stream = new ReadableStream({
     async start(controller) {
-      const pushStream = stream => {
+      const pushToStream = stream => {
         const reader = stream.getReader();
 
-        return reader.read().then(function process(result) {
-          if(result.done) {
+        return reader.read().then(function process({value, done}) {
+          if(done) {
             return;
           }
-          controller.enqueue(result.value);
+          controller.enqueue(value);
           return reader.read().then(process);
         });
       };
 
-      const [header, footer, content, script] = await Promise.all(
-        [
-          caches.match(headerTemplate),
-          caches.match(footerTemplate),
-          caches.match(routeMatch.template),
-          caches.match(routeMatch.script)
-        ]
-      );
+      const templates = [
+        caches.match(headerTemplate),
+        routeMatch.template ? caches.match(routeMatch.template) : getCachedHtmlResponse(routeMatch),
+        caches.match(footerTemplate),
+      ];
 
-      await pushStream(header.clone().body);
-      await pushStream(content.clone().body);
-      await pushStream(footer.clone().body);
-      await pushStream(script.clone().body);
+      if(routeMatch.script) {
+        templates.push(caches.match(routeMatch.script));
+      }
+
+      const responses = await Promise.all(templates);
+
+      for (const template of responses) {
+        await pushToStream(template.body);
+      }
 
       controller.close();
-
-      // const html = `${await header.text()}${await content.text()}${await footer.text()}${await script.text()}`;
-      // cacheHtmlResponse({url, html});
     }
   });
 
