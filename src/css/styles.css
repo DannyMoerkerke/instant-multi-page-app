@@ -51,6 +51,19 @@ nav a:visited {
   border-bottom-width: 2px;
   border-bottom-color: transparent;
 }
+h1 {
+  font-weight: normal;
+  font-size: 1.5em;
+}
+article {
+  padding-bottom: 70px;
+}
+h1:first-child {
+  font-size: 2.5em;
+}
+article h1:first-child {
+  font-size: 2em;
+}
 h2 {
   font-weight: normal;
   font-size: 2em;
@@ -59,6 +72,20 @@ p {
   font-size: 0.9rem;
   line-height: 1.8rem;
 }
+pre {
+  word-break: break-word;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+code {
+  font-size: 1.1rem;
+  word-break: break-all;
+}
+#content {
+  width: 70%;
+}
+
 #preview-portal {
   position:fixed;
   width: 100%;

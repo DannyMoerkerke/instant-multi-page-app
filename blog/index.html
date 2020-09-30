@@ -26,14 +26,26 @@
 
     <main>
       <section id="content">
-        <h2>Contact [initial]</h2>
+        <h2>Blog</h2>
+
+        <p>Loading postings...</p>
       </section>
     </main>
 
     <footer></footer>
 
     <script>
-      console.log('contact');
+      (async () => {
+        const apiUrl = 'https://3jrnxopv87.execute-api.us-east-1.amazonaws.com/production/blogpostings/writer/danny';
+        const compile = data => `${data.map(({title, intro, body}) => `<article>${title} ${intro} ${body}</article>`).join('')}`;
+        const data = await (await fetch(apiUrl)).json();
+        const html = compile(data);
+
+        const outlet = document.querySelector('#content');
+        outlet.querySelector('p').remove();
+
+        outlet.insertAdjacentHTML('beforeend', html);
+      })();
     </script>
 
     <script src="src/js/index.js"></script>

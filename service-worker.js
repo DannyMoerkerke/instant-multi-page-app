@@ -1,6 +1,5 @@
 const staticFiles = [
   'index.html',
-  'routes.js',
   'src/js/index.js',
   'src/css/styles.css',
   'src/img/IMG_0791.png',
@@ -11,6 +10,8 @@ const staticFiles = [
   'src/img/IMG_0927.png',
   'src/img/IMG_0955.png',
   'src/img/IMG_0966.png',
+  'src/img/service-worker.png',
+  'src/img/readablestream.png',
   'src/templates/header.html',
   'src/templates/footer.html',
   'src/templates/home.html',
@@ -38,7 +39,7 @@ const filesToCache = [
   ...urls
 ];
 
-const version = 41;
+const version = 43;
 const cacheName = `html_cache`;
 const debug = true;
 
@@ -74,7 +75,10 @@ const routes = [
     url: '/blog',
     apiUrl: 'https://3jrnxopv87.execute-api.us-east-1.amazonaws.com/production/blogpostings/writer/danny',
     compile: data => {
-      return `${data.map(({title, intro, body}) => `${title} ${intro} ${body}`).join('')}`;
+      return `<section id="content">
+                <h2>Blog</h2>
+                ${data.map(({title, intro, body}) => `<article>${title} ${intro} ${body}</article>`).join('')}
+              </section>`;
     }
   }
 ];
