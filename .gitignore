@@ -1,5 +1,6 @@
 .idea
 node_modules
+dist
 
 #amplify
 amplify/\#current-cloud-backend

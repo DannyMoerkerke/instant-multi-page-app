@@ -4,7 +4,9 @@
   "description": "A demo of a blazing fast multi-page app using modern web technology",
   "main": "index.js",
   "scripts": {
-    "start": "ws -p 9090"
+    "start": "ws -p 9090",
+    "webpack": "webpack --config webpack.config.prod.js -p",
+    "build": "npm run webpack"
   },
   "repository": {
     "type": "git",
@@ -18,5 +20,11 @@
   "homepage": "https://github.com/DannyMoerkerke/instant-multi-page-app#readme",
   "devDependencies": {
     "local-web-server": "^4.2.1"
+  },
+  "dependencies": {
+    "copy-webpack-plugin": "^6.1.1",
+    "html-webpack-plugin": "^4.5.0",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12"
   }
 }
