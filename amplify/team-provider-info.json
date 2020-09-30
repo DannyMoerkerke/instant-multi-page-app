@@ -1,0 +1,14 @@
+{
+    "production": {
+        "awscloudformation": {
+            "AuthRoleName": "instantmultipageapp-production-20200930164957-authRole",
+            "UnauthRoleArn": "arn:aws:iam::456209998258:role/instantmultipageapp-production-20200930164957-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::456209998258:role/instantmultipageapp-production-20200930164957-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "instantmultipageapp-production-20200930164957-deployment",
+            "UnauthRoleName": "instantmultipageapp-production-20200930164957-unauthRole",
+            "StackName": "instantmultipageapp-production-20200930164957",
+            "StackId": "arn:aws:cloudformation:us-east-1:456209998258:stack/instantmultipageapp-production-20200930164957/37eb8b80-032c-11eb-ba43-0ad52a854211"
+        }
+    }
+}
