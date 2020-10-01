@@ -42,7 +42,7 @@ const filesToCache = [
   ...urls
 ];
 
-const version = 45;
+const version = 46;
 const cacheName = `html_cache`;
 const debug = true;
 
