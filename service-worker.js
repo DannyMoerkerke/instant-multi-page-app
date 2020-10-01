@@ -1,6 +1,6 @@
 const staticFiles = [
   'index.html',
-  'src/js/index.js',
+  '/src/js/index.js',
   'src/css/styles.css',
   'src/img/IMG_0791.png',
   'src/img/IMG_0829.png',
@@ -23,7 +23,10 @@ const staticFiles = [
   'src/templates/contact.html',
   'src/templates/contact.js.html',
   'src/templates/images.html',
-  'src/templates/images.js.html'
+  'src/templates/images.js.html',
+  'https://fonts.googleapis.com/icon?family=Material+Icons',
+  '/node_modules/@dannymoerkerke/material-webcomponents/src/material-dropdown.js',
+  'https://fonts.gstatic.com/s/materialicons/v55/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2'
 ];
 
 const urls = [
@@ -39,7 +42,7 @@ const filesToCache = [
   ...urls
 ];
 
-const version = 43;
+const version = 45;
 const cacheName = `html_cache`;
 const debug = true;
 
@@ -247,9 +250,11 @@ const activateHandler = e => {
   return self.clients.claim();
 };
 
+const isModuleRequest = ({credentials, mode}) => credentials !== 'include' && mode !== 'no-cors';
+
 const fetchHandler = async e => {
-  const {request} = e;
-  const {url, method} = request;
+  const {url, method} = e.request;
+  const request = isModuleRequest(e.request) ? new Request(url, {credentials: 'include', mode: 'no-cors'}) : e.request;
   const {pathname} = new URL(url);
   const routeMatch = routes.find(({url}) => url === pathname);
 

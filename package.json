@@ -26,5 +26,6 @@
     "html-webpack-plugin": "^4.5.0",
     "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12"
+    "@dannymoerkerke/material-webcomponents": "^1.2.9"
   }
 }

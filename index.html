@@ -9,10 +9,20 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon"/>
     <link rel='shortcut icon' type='image/x-icon' href='favicon.ico'>
     <link rel="stylesheet" href="src/css/styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   </head>
   <body>
     <header>
       <nav>
+        <material-dropdown>
+          <i class="material-icons" slot="icon" tabindex="1">menu</i>
+          <li slot="option"><a href="/">Home</a></li>
+          <li slot="option"><a href="/readablestream">Readable Stream</a></li>
+          <li slot="option"><a href="/serviceworker">Service Worker</a></li>
+          <li slot="option"><a href="/contact">Contact</a></li>
+          <li slot="option"><a href="/images">Images</a></li>
+          <li slot="option"><a href="/blog">Blog</a></li>
+        </material-dropdown>
         <ul>
           <li><a href="/">Home</a></li>
           <li><a href="/readablestream">Readable Stream</a></li>
@@ -127,6 +137,6 @@
 
     </script>
 
-    <script src="src/js/index.js"></script>
+    <script type="module" src="src/js/index.js"></script>
   </body>
 </html>
