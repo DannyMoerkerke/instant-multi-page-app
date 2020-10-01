@@ -18,5 +18,8 @@
   "homepage": "https://github.com/DannyMoerkerke/instant-multi-page-app#readme",
   "devDependencies": {
     "local-web-server": "^4.2.1"
+  },
+  "dependencies": {
+    "@dannymoerkerke/material-webcomponents": "^1.2.9"
   }
 }

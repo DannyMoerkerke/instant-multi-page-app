@@ -20,36 +20,81 @@ header, footer {
   padding: 10px;
   color: #ffffff;
 }
+
+@media screen and (min-width: 1024px) {
+  header, footer {
+    justify-content: center;
+  }
+}
 #content {
   flex-grow: 1;
   background-color: #ffffff;
   padding: 10px;
-  width: 70%;
+  width: 85%;
+}
+@media screen and (min-width: 1024px) {
+  #content {
+    width: 70%;
+  }
 }
 nav {
-  width: 70%;
+  width: 85%;
+  position: relative;
+}
+material-dropdown {
+  --menu-width: 200px;
+}
+@media screen and (min-width: 1024px) {
+  nav {
+    width: 70%;
+  }
+  material-dropdown {
+    display: none;
+  }
 }
 nav ul {
+  display: none;
   list-style-type: none;
   height: 100%;
   margin: 0;
   padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  text-transform: uppercase;
+  position: absolute;
+}
+
+@media screen and (min-width: 1024px) {
+  nav ul {
+    display: flex;
+    position: static;
+    align-items: center;
+    justify-content: space-between;
+    text-transform: uppercase;
+  }
 }
 nav li {
   display: block;
+  padding: 5px;
+  background-color: #ffffff;
+}
+@media screen and (min-width: 1024px) {
+  nav li {
+    padding: 0;
+    background-color: transparent;
+  }
 }
 nav a,
 nav a:visited {
-  color: #ffffff;
+  color: #000000;
   display: inline-block;
   text-decoration: none;
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: transparent;
+}
+@media screen and (min-width: 1024px) {
+  nav a,
+  nav a:visited {
+    color: #ffffff;
+  }
 }
 h1 {
   font-weight: normal;
@@ -82,10 +127,15 @@ code {
   font-size: 1.1rem;
   word-break: break-all;
 }
-#content {
-  width: 70%;
+img {
+  max-width: 100%;
 }
-
+@media screen and (min-width: 1024px) {
+  img {
+    max-width: initial;
+    height: auto;
+  }
+}
 #preview-portal {
   position:fixed;
   width: 100%;
