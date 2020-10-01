@@ -25,7 +25,7 @@ const staticFiles = [
   'src/templates/images.html',
   'src/templates/images.js.html',
   'https://fonts.googleapis.com/icon?family=Material+Icons',
-  '/node_modules/@dannymoerkerke/material-webcomponents/src/material-dropdown.js',
+  'node_modules/@dannymoerkerke/material-webcomponents/src/material-dropdown.js',
   'https://fonts.gstatic.com/s/materialicons/v55/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2'
 ];
 
@@ -42,7 +42,7 @@ const filesToCache = [
   ...urls
 ];
 
-const version = 48;
+const version = 49;
 const cacheName = `html_cache`;
 const debug = true;
 
