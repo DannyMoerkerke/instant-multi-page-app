@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "ws -p 9090",
+    "start:build": "ws -p 9090 -d dist",
     "webpack": "webpack --config webpack.config.prod.js -p",
     "prebuild": "rm -rf dist",
     "build": "npm run webpack"
