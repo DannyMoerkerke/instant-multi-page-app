@@ -6,6 +6,7 @@
   "scripts": {
     "start": "ws -p 9090",
     "webpack": "webpack --config webpack.config.prod.js -p",
+    "prebuild": "rm -rf dist",
     "build": "npm run webpack"
   },
   "repository": {
