@@ -33,7 +33,7 @@ const filesToCache = [
   ...staticFiles,
 ];
 
-const version = 51;
+const version = 52;
 const cacheName = `html_cache`;
 const debug = true;
 
