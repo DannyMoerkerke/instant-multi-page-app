@@ -21,6 +21,11 @@ module.exports = {
       filename: 'index.html',
       chunks: ['bundle']
     }),
+    new HtmlWebpackPlugin({
+      template: './src/footer.html',
+      filename: 'src/templates/footer.html',
+      chunks: ['bundle']
+    }),
     new CopyPlugin({
         patterns: [
           {

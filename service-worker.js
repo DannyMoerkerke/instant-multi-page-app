@@ -29,20 +29,11 @@ const staticFiles = [
   'https://fonts.gstatic.com/s/materialicons/v55/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2'
 ];
 
-const urls = [
-  // '/',
-  // '/readablestream',
-  // '/serviceworker',
-  // '/contact',
-  // '/images'
-];
-
 const filesToCache = [
   ...staticFiles,
-  ...urls
 ];
 
-const version = 50;
+const version = 51;
 const cacheName = `html_cache`;
 const debug = true;
 
