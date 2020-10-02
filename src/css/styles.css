@@ -21,6 +21,14 @@ header, footer {
   color: #ffffff;
 }
 
+material-dropdown {
+  display: none;
+}
+
+material-dropdown:defined {
+  display: block;
+}
+
 @media screen and (min-width: 1024px) {
   header, footer {
     justify-content: center;
