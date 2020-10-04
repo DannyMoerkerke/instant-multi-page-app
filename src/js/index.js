@@ -10,4 +10,4 @@ if('serviceWorker' in navigator) {
   });
 }
 
-import '/node_modules/@dannymoerkerke/material-webcomponents/src/material-dropdown.js';
+import '../../node_modules/@dannymoerkerke/material-webcomponents/src/material-dropdown.js';

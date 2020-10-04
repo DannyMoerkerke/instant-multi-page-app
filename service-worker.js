@@ -25,24 +25,15 @@ const staticFiles = [
   'src/templates/images.html',
   'src/templates/images.js.html',
   'https://fonts.googleapis.com/icon?family=Material+Icons',
-  '/node_modules/@dannymoerkerke/material-webcomponents/src/material-dropdown.js',
+  // 'node_modules/@dannymoerkerke/material-webcomponents/src/material-dropdown.js',
   'https://fonts.gstatic.com/s/materialicons/v55/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2'
-];
-
-const urls = [
-  // '/',
-  // '/readablestream',
-  // '/serviceworker',
-  // '/contact',
-  // '/images'
 ];
 
 const filesToCache = [
   ...staticFiles,
-  ...urls
 ];
 
-const version = 45;
+const version = 53;
 const cacheName = `html_cache`;
 const debug = true;
 
@@ -78,10 +69,12 @@ const routes = [
     url: '/blog',
     apiUrl: 'https://3jrnxopv87.execute-api.us-east-1.amazonaws.com/production/blogpostings/writer/danny',
     compile: data => {
-      return `<section id="content">
-                <h2>Blog</h2>
-                ${data.map(({title, intro, body}) => `<article>${title} ${intro} ${body}</article>`).join('')}
-              </section>`;
+      return `<main>
+                <section id="content">
+                  <h2>Blog</h2>
+                  ${data.map(({title, intro, body}) => `<article>${title} ${intro} ${body}</article>`).join('')}
+                </section>
+              </main>`;
     }
   }
 ];
