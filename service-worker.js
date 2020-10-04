@@ -56,11 +56,6 @@ const routes = [
     script: '/src/templates/serviceworker.js.html'
   },
   {
-    url: '/contact',
-    template: '/src/templates/contact.html',
-    script: '/src/templates/contact.js.html'
-  },
-  {
     url: '/images',
     template: '/src/templates/images.html',
     script: '/src/templates/images.js.html'

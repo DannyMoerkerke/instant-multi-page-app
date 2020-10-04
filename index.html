@@ -19,7 +19,6 @@
           <li slot="option"><a href="/">Home</a></li>
           <li slot="option"><a href="/readablestream">Readable Stream</a></li>
           <li slot="option"><a href="/serviceworker">Service Worker</a></li>
-          <li slot="option"><a href="/contact">Contact</a></li>
           <li slot="option"><a href="/images">Images</a></li>
           <li slot="option"><a href="/blog">Blog</a></li>
         </material-dropdown>
@@ -27,7 +26,6 @@
           <li><a href="/">Home</a></li>
           <li><a href="/readablestream">Readable Stream</a></li>
           <li><a href="/serviceworker">Service Worker</a></li>
-          <li><a href="/contact">Contact</a></li>
           <li><a href="/images">Images</a></li>
           <li><a href="/blog">Blog</a></li>
         </ul>
@@ -82,52 +80,6 @@
     </main>
 
     <footer></footer>
-
-    <script>
-      console.log('home');
-
-      if(!document.querySelector('#preview-portal')) {
-        document.body.insertAdjacentHTML('beforeend', `<portal id="preview-portal"></portal>`);
-      }
-      const portal = document.querySelector('#preview-portal');
-      const {width: portalWidth} = portal.getBoundingClientRect();
-
-      const showPreview = e => {
-        const li = e.composedPath().find(el => el.tagName && el.tagName.toLowerCase() === 'li');
-
-        if(li) {
-          const link = li.querySelector('a');
-
-          if(link) {
-            portal.style.left = `${li.dataset.x}px`;
-            portal.style.top = `${li.dataset.y}px`;
-            portal.src = link.href;
-            portal.classList.add('visible');
-          }
-        }
-      };
-
-      const removePreview = e => {
-        const li = e.composedPath().find(el => el.tagName && el.tagName.toLowerCase() === 'li');
-
-        if(li) {
-          portal.classList.remove('visible');
-        }
-      };
-
-      const nav = document.querySelector('nav');
-
-      // nav.addEventListener('mouseover', showPreview);
-      // nav.addEventListener('mouseout', removePreview);
-
-      nav.querySelectorAll('li').forEach(li => {
-        const {width, height, top, left} = li.getBoundingClientRect();
-
-        li.dataset.x = (left + width / 2) - portalWidth / 2;
-        li.dataset.y = top + height;
-      });
-
-    </script>
 
     <script type="module" src="src/js/index.js"></script>
   </body>
