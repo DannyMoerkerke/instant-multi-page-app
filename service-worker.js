@@ -69,10 +69,12 @@ const routes = [
     url: '/blog',
     apiUrl: 'https://3jrnxopv87.execute-api.us-east-1.amazonaws.com/production/blogpostings/writer/danny',
     compile: data => {
-      return `<section id="content">
-                <h2>Blog</h2>
-                ${data.map(({title, intro, body}) => `<article>${title} ${intro} ${body}</article>`).join('')}
-              </section>`;
+      return `<main>
+                <section id="content">
+                  <h2>Blog</h2>
+                  ${data.map(({title, intro, body}) => `<article>${title} ${intro} ${body}</article>`).join('')}
+                </section>
+              </main>`;
     }
   }
 ];
