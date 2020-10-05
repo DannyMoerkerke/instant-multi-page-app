@@ -37,5 +37,48 @@
     <p>
       This effectively reduces single-page apps to a polyfill.
     </p>
+    <h2>How it works</h2>
+    <p>
+      The trick to making multi-page apps blazing fast is utilizing the browser's streaming HTML
+      parser.
+    </p>
+    <p>
+      The browser renders HTML while it downloads. It doesn't need to wait for the whole response to arrive,
+      but it can start rendering content as soon as it becomes available.
+    </p>
+    <p>
+      We can leverage this by having a Service Worker fetch all the content we need and have it stream everything
+      to the browser.
+    </p>
+    <p>
+      The Service Worker will then intercept any outgoing request, fetch the header and footer and then determine
+      which body content it needs to fetch. This can be just a simple HTML template or a combination of a template
+      and some data fetched from the network.
+    </p>
+    <p>
+      The Service Worker will then combine these parts to a full HTML page and return it to the browser. It's like server-side
+      rendering, but it's all done on the client-side in a streaming manner, using a <code>ReadableStream</code>.
+    </p>
+    <p>
+      This means it can start rendering the header of the page while the content and footer are still downloading,
+      giving a <em>huge</em> performance benefit.
+    </p>
+
+    <p>
+      The demo contains some simple text pages, a page with some large images and a page containing some postings from my
+      blog which are dynamically fetched, combined into a large HTML page and then cached.
+    </p>
+
+    <p>
+      You will notice that even the large blog page and the page containing the large images load nearly instantly, even
+      though every page requires a full page reload.
+    </p>
+    <p>
+      This is how good browsers are at rendering the DOM <em>if we use the streaming HTML parser</em>.
+    </p>
+    <p>
+      You can find the source code of this demo on
+      <a href="https://github.com/DannyMoerkerke/instant-multi-page-app" target="_blank" rel="noopener">Github</a>.
+    </p>
   </section>
 </main>

@@ -67,6 +67,13 @@ const routes = [
       return `<main>
                 <section id="content">
                   <h2>Blog</h2>
+                  <p>
+                    <em>
+                      This page contains twelve of my blog posting which are fetched dynamically and then combined into
+                      one large HTML page. After the first render it is cached and served from IndexedDB for subsequent 
+                      renders.
+                    </em>
+                  </p>
                   ${data.map(({title, intro, body}) => `<article>${title} ${intro} ${body}</article>`).join('')}
                 </section>
               </main>`;
