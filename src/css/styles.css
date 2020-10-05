@@ -138,6 +138,8 @@ code {
 img {
   max-width: 100%;
   height: auto;
+  content-visibility: auto;
+  contain-intrinsic-size: 600px;
 }
 @media screen and (min-width: 1024px) {
   img {
