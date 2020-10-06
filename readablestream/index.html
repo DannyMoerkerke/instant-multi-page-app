@@ -19,7 +19,6 @@
           <li slot="option"><a href="/">Home</a></li>
           <li slot="option"><a href="/readablestream">Readable Stream</a></li>
           <li slot="option"><a href="/serviceworker">Service Worker</a></li>
-          <li slot="option"><a href="/contact">Contact</a></li>
           <li slot="option"><a href="/images">Images</a></li>
           <li slot="option"><a href="/blog">Blog</a></li>
         </material-dropdown>
@@ -27,7 +26,6 @@
           <li><a href="/">Home</a></li>
           <li><a href="/readablestream">Readable Stream</a></li>
           <li><a href="/serviceworker">Service Worker</a></li>
-          <li><a href="/contact">Contact</a></li>
           <li><a href="/images">Images</a></li>
           <li><a href="/blog">Blog</a></li>
         </ul>
@@ -42,23 +40,32 @@
         </p>
 
         <blockquote>
-          The ReadableStream interface of the Streams API represents a readable stream of byte data. The Fetch API offers a
-          concrete instance of a ReadableStream through the body property of a Response object.
+          The <code>ReadableStream</code> interface of the Streams API represents a readable stream of byte data. The Fetch
+          API offers a concrete instance of a <code>ReadableStream</code> through the <code>body</code> property of a
+          <code>Response</code> object.
         </blockquote>
         <p>
-          A prime use-case for ReadableStream is as the content of a Response object. This enables developers the
-          construct a streaming response and serve this to the browser through a Service Worker.
+          A prime use-case for <code>ReadableStream</code> is as the content of a <code>Response</code> object. This enables
+          developers to construct a streaming response and serve this to the browser through a Service Worker.
         </p>
         <p>
           This is the core functionality of this app.
         </p>
         <p>
-          ReadableStream is supported by all modern browsers.
+          <code>ReadableStream</code> is supported by all modern browsers.
         </p>
         <p>
           <img src="src/img/readablestream.png">
         </p>
-      </section>
+        <p>
+          In this demo, the header, footer and content are fetched as separate templates. All template responses have a
+          <code>body</code> property which exposes the underlying stream. For each of these streams we get a reader.
+        </p>
+        <p>
+          Then, a new <code>ReadableStream</code> is constructed that is immediately returned to the browser. When the
+          readers of the individual template streams return a chunk, this is enqueued in the new
+          <code>ReadableStream</code> which then immediately serves that content to the browser.
+        </p>
 
     </main>
 

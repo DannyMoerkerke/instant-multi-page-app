@@ -25,7 +25,6 @@ const staticFiles = [
   'src/templates/images.html',
   'src/templates/images.js.html',
   'https://fonts.googleapis.com/icon?family=Material+Icons',
-  // 'node_modules/@dannymoerkerke/material-webcomponents/src/material-dropdown.js',
   'https://fonts.gstatic.com/s/materialicons/v55/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2'
 ];
 
