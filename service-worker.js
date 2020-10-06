@@ -12,6 +12,7 @@ const staticFiles = [
   'src/img/IMG_0966.png',
   'src/img/service-worker.png',
   'src/img/readablestream.png',
+  'src/img/github.svg',
   'src/templates/header.html',
   'src/templates/footer.html',
   'src/templates/home.html',

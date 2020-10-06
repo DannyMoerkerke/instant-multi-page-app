@@ -46,17 +46,26 @@ material-dropdown:defined {
   }
 }
 nav {
+  display: flex;
+  justify-content: space-between;
   width: 85%;
   position: relative;
 }
 material-dropdown {
   --menu-width: 200px;
 }
+#github {
+  width: 24px;
+}
 @media screen and (min-width: 1024px) {
   nav {
+    display: block;
     width: 70%;
   }
   material-dropdown:defined {
+    display: none;
+  }
+  #github {
     display: none;
   }
 }
