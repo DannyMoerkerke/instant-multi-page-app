@@ -16,38 +16,58 @@ module.exports = {
     rules: []
   },
   plugins: [
+    // index
     new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: 'index.html',
       chunks: ['bundle']
     }),
+    // blog
     new HtmlWebpackPlugin({
-      template: './src/footer.html',
-      filename: 'src/templates/footer.html',
+      template: './blog/index-build.html',
+      filename: 'blog/index.html',
+      chunks: ['bundle']
+    }),
+    // images
+    new HtmlWebpackPlugin({
+      template: './images/index-build.html',
+      filename: 'images/index.html',
+      chunks: ['bundle']
+    }),
+    // readablestream
+    new HtmlWebpackPlugin({
+      template: './readablestream/index-build.html',
+      filename: 'readablestream/index.html',
+      chunks: ['bundle']
+    }),
+    // serviceworker
+    new HtmlWebpackPlugin({
+      template: './serviceworker/index-build.html',
+      filename: 'serviceworker/index.html',
       chunks: ['bundle']
     }),
     new CopyPlugin({
         patterns: [
-          {
-            from: 'blog/**/*',
-            to: '../dist/'
-          },
-          {
-            from: 'contact/**/*',
-            to: '../dist/'
-          },
-          {
-            from: 'images/**/*',
-            to: '../dist/'
-          },
-          {
-            from: 'readablestream/**/*',
-            to: '../dist/'
-          },
-          {
-            from: 'serviceworker/**/*',
-            to: '../dist/'
-          },
+          // {
+          //   from: 'blog/**/*',
+          //   to: '../dist/'
+          // },
+          // {
+          //   from: 'contact/**/*',
+          //   to: '../dist/'
+          // },
+          // {
+          //   from: 'images/**/*',
+          //   to: '../dist/'
+          // },
+          // {
+          //   from: 'readablestream/**/*',
+          //   to: '../dist/'
+          // },
+          // {
+          //   from: 'serviceworker/**/*',
+          //   to: '../dist/'
+          // },
           {
             from: 'src/**/*',
             to: '../dist/',
