@@ -25,6 +25,10 @@ const staticFiles = [
   'src/templates/contact.js.html',
   'src/templates/images.html',
   'src/templates/images.js.html',
+  'blog/index.html',
+  'images/index.html',
+  'readablestream/index.html',
+  'serviceworker/index.html',
   'https://fonts.googleapis.com/icon?family=Material+Icons',
   'https://fonts.gstatic.com/s/materialicons/v55/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2'
 ];
