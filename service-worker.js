@@ -1,4 +1,5 @@
 const staticFiles = [
+  '/',
   'index.html',
   '/src/js/index.js',
   'src/css/styles.css',
@@ -37,7 +38,7 @@ const filesToCache = [
   ...staticFiles,
 ];
 
-const version = 58;
+const version = 59;
 const cacheName = `html_cache`;
 const debug = true;
 
@@ -50,12 +51,12 @@ const routes = [
     script: '/src/templates/home.js.html'
   },
   {
-    url: '/readablestream',
+    url: '/readablestream/',
     template: '/src/templates/readablestream.html',
     script: '/src/templates/readablestream.js.html'
   },
   {
-    url: '/serviceworker',
+    url: '/serviceworker/',
     template: '/src/templates/serviceworker.html',
     script: '/src/templates/serviceworker.js.html'
   },
@@ -65,12 +66,12 @@ const routes = [
     script: '/src/templates/contact.js.html'
   },
   {
-    url: '/images',
+    url: '/images/',
     template: '/src/templates/images.html',
     script: '/src/templates/images.js.html'
   },
   {
-    url: '/blog',
+    url: '/blog/',
     apiUrl: 'https://3jrnxopv87.execute-api.us-east-1.amazonaws.com/production/blogpostings/writer/danny',
     compile: data => {
       return `<main>
