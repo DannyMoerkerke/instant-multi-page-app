@@ -16,6 +16,12 @@ module.exports = {
     rules: []
   },
   plugins: [
+    // footer
+    new HtmlWebpackPlugin({
+      template: './src/templates/footer-build.html',
+      filename: 'src/templates/footer.html',
+      chunks: ['bundle']
+    }),
     // index
     new HtmlWebpackPlugin({
       template: './src/index.html',
