@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <base href="/">
+    <title>Instant Multi-Page App</title>
+
+    <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+    <link rel='shortcut icon' type='image/x-icon' href='favicon.ico'>
+    <link rel="stylesheet" href="src/css/styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  </head>
+  <body>
+    <header>
+      <nav>
+        <material-dropdown>
+          <i class="material-icons" slot="icon" tabindex="1">menu</i>
+          <li slot="option"><a href="/">Home</a></li>
+          <li slot="option"><a href="/readablestream">Readable Stream</a></li>
+          <li slot="option"><a href="/serviceworker">Service Worker</a></li>
+          <li slot="option"><a href="/images">Images</a></li>
+          <li slot="option"><a href="/blog">Blog</a></li>
+        </material-dropdown>
+        <a href="https://github.com/DannyMoerkerke/instant-multi-page-app" target="_blank" rel="noopener" id="github">
+          <img src="src/img/github.svg" />
+        </a>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/readablestream">Readable Stream</a></li>
+          <li><a href="/serviceworker">Service Worker</a></li>
+          <li><a href="/images">Images</a></li>
+          <li><a href="/blog">Blog</a></li>
+        </ul>
+      </nav>
+    </header>
+
+<main>
+  <section id="content">
+    <h2>Service Worker</h2>
+
+    <p>
+      A Service Worker is a type of Web Worker that can act like a proxy server between a web app and the
+      network.
+    </p>
+    <p>
+      It can intercept all outgoing requests and incoming responses of a web app and enables it to work offline.
+    </p>
+    <p>
+      Typically, a Service Worker caches all assets of a web app locally when it is activated and then serves these
+      assets from the cache, reducing network traffic or eliminating it altogether.
+    </p>
+    <p>
+      This literally means you can intercept any request and serve basically whatever you want. You can serve static
+      assets straight from the local cache or even serve API responses and BLOBs from IndexedDB.
+    </p>
+    <p>
+      Service Workers are supported by all modern browsers and work by progressive enhancement, which means that
+      nothing will break when a user visits your website with an old browser that doesn't support Service Workers.
+      It just won't work offline in that case.
+    </p>
+    <p>
+      <img src="src/img/service-worker.png">
+    </p>
+  </section>
+</main>
+      <footer id="main-footer">
+
+      </footer>
+
+<script>
+  console.log('service worker');
+</script>
