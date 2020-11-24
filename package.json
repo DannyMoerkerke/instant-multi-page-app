@@ -24,6 +24,7 @@
     "local-web-server": "^4.2.1"
   },
   "dependencies": {
+    "@aws-amplify/core": "^3.7.0",
     "@dannymoerkerke/material-webcomponents": "^1.2.10",
     "copy-webpack-plugin": "^6.1.1",
     "html-webpack-plugin": "^4.5.0",
