@@ -8,7 +8,8 @@
     "start:build": "ws -p 9090 -d dist",
     "webpack": "webpack --config webpack.config.prod.js -p",
     "prebuild": "rm -rf dist",
-    "build": "npm run webpack"
+    "build": "npm run webpack",
+    "postbuild": "node src/lib/post-build.js"
   },
   "repository": {
     "type": "git",

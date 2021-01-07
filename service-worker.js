@@ -1,3 +1,5 @@
+const buildFiles = [];
+
 const staticFiles = [
   '/',
   'index.html',
@@ -35,6 +37,7 @@ const staticFiles = [
 ];
 
 const filesToCache = [
+  ...buildFiles,
   ...staticFiles,
 ];
 
