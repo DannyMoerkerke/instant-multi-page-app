@@ -2,9 +2,7 @@ const buildFiles = [];
 
 const staticFiles = [
   '/',
-  'index.html',
   '/src/js/index.js',
-  'src/css/styles.css',
   'src/img/IMG_0791.png',
   'src/img/IMG_0829.png',
   'src/img/IMG_0848.png',
