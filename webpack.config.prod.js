@@ -82,6 +82,10 @@ module.exports = {
             }
           },
           {
+            from: 'voc/**/*',
+            to: '../dist/'
+          },
+          {
             from: 'service-worker.js',
             to: '../dist/service-worker.js'
           },
