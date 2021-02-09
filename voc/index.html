@@ -216,7 +216,7 @@
         ship.addEventListener('click', e => {
           const ship = e.target;
           const question = ship.dataset.question;
-          const isAnswered = .document.querySelectorAll(`[name="${question}"]`)].some(el => el.checked);
+          const isAnswered = document.querySelectorAll(`[name="${question}"]`)].some(el => el.checked);
 
           if(isAnswered) {
             ship.classList.add('move');
