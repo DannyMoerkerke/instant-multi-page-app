@@ -21,8 +21,6 @@ const staticFiles = [
   'src/templates/readablestream.js.html',
   'src/templates/serviceworker.html',
   'src/templates/serviceworker.js.html',
-  'src/templates/contact.html',
-  'src/templates/contact.js.html',
   'src/templates/images.html',
   'src/templates/images.js.html',
   'https://fonts.googleapis.com/icon?family=Material+Icons',
