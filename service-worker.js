@@ -1,3 +1,6 @@
+const version = 62;
+const buildFiles = [];
+
 const staticFiles = [
   'index.html',
   '/src/js/index.js',
@@ -21,17 +24,24 @@ const staticFiles = [
   'src/templates/readablestream.js.html',
   'src/templates/serviceworker.html',
   'src/templates/serviceworker.js.html',
+  'src/templates/contact.html',
+  'src/templates/contact.js.html',
   'src/templates/images.html',
   'src/templates/images.js.html',
+  'blog/index.html',
+  'images/index.html',
+  'readablestream/index.html',
+  'serviceworker/index.html',
   'https://fonts.googleapis.com/icon?family=Material+Icons',
   'https://fonts.gstatic.com/s/materialicons/v55/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2'
 ];
 
 const filesToCache = [
+  ...buildFiles,
   ...staticFiles,
 ];
 
-const version = 53;
+const version = 61;
 const cacheName = `html_cache`;
 const debug = true;
 
@@ -59,8 +69,8 @@ const routes = [
     script: '/src/templates/images.js.html'
   },
   {
-    url: '/blog',
-    apiUrl: 'https://3jrnxopv87.execute-api.us-east-1.amazonaws.com/production/blogpostings/writer/danny',
+    url: '/blog/',
+    apiUrl: 'https://ry5z3rkdza.execute-api.us-east-1.amazonaws.com/production/blogpostings/writer/danny',
     compile: data => {
       return `<main>
                 <section id="content">
