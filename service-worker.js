@@ -1,4 +1,4 @@
-const version = 62;
+const version = 63;
 const buildFiles = [];
 
 const staticFiles = [
@@ -42,7 +42,6 @@ const filesToCache = [
   ...staticFiles,
 ];
 
-const version = 61;
 const cacheName = `html_cache`;
 const debug = true;
 
