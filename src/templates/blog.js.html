@@ -1,8 +1,11 @@
 <script>
   (async () => {
-    const apiUrl = 'https://3jrnxopv87.execute-api.us-east-1.amazonaws.com/production/blogpostings/writer/danny';
+    const apiUrl = 'https://ry5z3rkdza.execute-api.us-east-1.amazonaws.com/production/blogpostings/writer/danny';
     const compile = data => `${data.map(({title, intro, body}) => `<article>${title} ${intro} ${body}</article>`).join('')}`;
-    const data = await (await fetch(apiUrl)).json();
+
+    const response = await fetch(apiUrl);
+    console.log(response);
+    const data = await response.json();
     const html = compile(data);
 
     const outlet = document.querySelector('#content');

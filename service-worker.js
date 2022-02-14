@@ -1,9 +1,11 @@
-const version = 63;
+
+const version = 83;
 const buildFiles = [];
 
 const staticFiles = [
+  '/readablestream',
   'index.html',
-  '/src/js/index.js',
+  '/index.js',
   'src/css/styles.css',
   'src/img/IMG_0791.png',
   'src/img/IMG_0829.png',
@@ -24,8 +26,6 @@ const staticFiles = [
   'src/templates/readablestream.js.html',
   'src/templates/serviceworker.html',
   'src/templates/serviceworker.js.html',
-  'src/templates/contact.html',
-  'src/templates/contact.js.html',
   'src/templates/images.html',
   'src/templates/images.js.html',
   'blog/index.html',
@@ -33,8 +33,7 @@ const staticFiles = [
   'readablestream/index.html',
   'serviceworker/index.html',
   'https://fonts.googleapis.com/icon?family=Material+Icons',
-  '/node_modules/@dannymoerkerke/material-webcomponents/src/material-dropdown.js',
-  'https://fonts.gstatic.com/s/materialicons/v55/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2'
+  '/node_modules/@dannymoerkerke/material-webcomponents/src/material-dropdown.js'
 ];
 
 const filesToCache = [
@@ -42,7 +41,7 @@ const filesToCache = [
   ...staticFiles,
 ];
 
-const cacheName = `html_cache`;
+const cacheName = `html_cache-${version}`;
 const debug = true;
 
 const log = debug ? console.log.bind(console) : () => {};
@@ -72,19 +71,20 @@ const routes = [
     url: '/blog/',
     apiUrl: 'https://ry5z3rkdza.execute-api.us-east-1.amazonaws.com/production/blogpostings/writer/danny',
     compile: data => {
-      return `<main>
-                <section id="content">
-                  <h2>Blog</h2>
-                  <p>
-                    <em>
-                      This page contains twelve of my blog posting which are fetched dynamically and then combined into
-                      one large HTML page. After the first render it is cached and served from IndexedDB for subsequent 
-                      renders.
-                    </em>
-                  </p>
-                  ${data.map(({title, intro, body}) => `<article>${title} ${intro} ${body}</article>`).join('')}
-                </section>
-              </main>`;
+      return `
+        <main>
+          <section id="content">
+            <h2>Blog</h2>
+            <p>
+              <em>
+                This page contains twelve of my blog posting which are fetched dynamically and then combined into
+                one large HTML page. After the first render it is cached and served from IndexedDB for subsequent 
+                renders.
+              </em>
+            </p>
+            ${data.map(({title, intro, body}) => `<article>${title} ${intro} ${body}</article>`).join('')}
+          </section>
+        </main>`;
     }
   }
 ];
@@ -260,7 +260,7 @@ const fetchHandler = async e => {
   const request = isModuleRequest(e.request) ? new Request(url, {credentials: 'include', mode: 'no-cors'}) : e.request;
   const {pathname} = new URL(url);
   const routeMatch = routes.find(({url}) => url === pathname);
-
+  console.log(routeMatch, url, pathname);
   log('[Service Worker] Fetch', url, method);
 
   if(routeMatch) {
@@ -268,13 +268,21 @@ const fetchHandler = async e => {
     e.respondWith(getStreamedHtmlResponse(url, routeMatch));
   }
   else {
+    // e.respondWith(
+    //   caches.match(e.request, {ignoreSearch: true})
+    //   .then(response => response ? response : fetch(e.request)
+    //     .catch(err => console.error('fetch error:', err))
+    //   )
+    // );
+
     e.respondWith(
       // request.mode === 'navigate' ? caches.match(request) :
-      caches.match(request)
+      caches.match(e.request)
       .then(response => {
-        response ? log('from cache', url) : log('not cached, fetching', url, response);
-        return response ? response : fetch(request);
+        response ? log('from cache', url) : log('not cached, fetching', url);
+        return response ? response : fetch(e.request);
       })
+      .catch(err => console.error('fetch error:', err))
     );
   }
 };
