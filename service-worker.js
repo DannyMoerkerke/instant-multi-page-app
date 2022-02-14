@@ -1,8 +1,10 @@
+const version = 62;
 const buildFiles = [];
 
 const staticFiles = [
-  '/',
+  'index.html',
   '/src/js/index.js',
+  'src/css/styles.css',
   'src/img/IMG_0791.png',
   'src/img/IMG_0829.png',
   'src/img/IMG_0848.png',
@@ -31,6 +33,7 @@ const staticFiles = [
   'readablestream/index.html',
   'serviceworker/index.html',
   'https://fonts.googleapis.com/icon?family=Material+Icons',
+  '/node_modules/@dannymoerkerke/material-webcomponents/src/material-dropdown.js',
   'https://fonts.gstatic.com/s/materialicons/v55/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2'
 ];
 
@@ -52,28 +55,23 @@ const routes = [
     script: '/src/templates/home.js.html'
   },
   {
-    url: '/readablestream/',
+    url: '/readablestream',
     template: '/src/templates/readablestream.html',
     script: '/src/templates/readablestream.js.html'
   },
   {
-    url: '/serviceworker/',
+    url: '/serviceworker',
     template: '/src/templates/serviceworker.html',
     script: '/src/templates/serviceworker.js.html'
   },
   {
-    url: '/contact',
-    template: '/src/templates/contact.html',
-    script: '/src/templates/contact.js.html'
-  },
-  {
-    url: '/images/',
+    url: '/images',
     template: '/src/templates/images.html',
     script: '/src/templates/images.js.html'
   },
   {
     url: '/blog/',
-    apiUrl: 'https://3jrnxopv87.execute-api.us-east-1.amazonaws.com/production/blogpostings/writer/danny',
+    apiUrl: 'https://ry5z3rkdza.execute-api.us-east-1.amazonaws.com/production/blogpostings/writer/danny',
     compile: data => {
       return `<main>
                 <section id="content">

@@ -54,36 +54,13 @@ module.exports = {
     }),
     new CopyPlugin({
         patterns: [
-          // {
-          //   from: 'blog/**/*',
-          //   to: '../dist/'
-          // },
-          // {
-          //   from: 'contact/**/*',
-          //   to: '../dist/'
-          // },
-          // {
-          //   from: 'images/**/*',
-          //   to: '../dist/'
-          // },
-          // {
-          //   from: 'readablestream/**/*',
-          //   to: '../dist/'
-          // },
-          // {
-          //   from: 'serviceworker/**/*',
-          //   to: '../dist/'
-          // },
+
           {
             from: 'src/**/*',
             to: '../dist/',
             globOptions: {
               ignore: ['aws-exports.js']
             }
-          },
-          {
-            from: 'voc/**/*',
-            to: '../dist/'
           },
           {
             from: 'service-worker.js',

@@ -8,13 +8,28 @@ const SERVICE_WORKER = 'service-worker.js';
 const INDEX = 'index.html';
 const BUILD_DIR = path.resolve('dist');
 
+const { resolve } = require('path');
+const { readdir } = require('fs').promises;
+
+async function* getEntries(dir) {
+  const dirents = await readdir(dir, { withFileTypes: true });
+  for (const dirent of dirents) {
+    const res = resolve(dir, dirent.name);
+    if (dirent.isDirectory()) {
+      yield* getEntries(res);
+    } else {
+      yield res;
+    }
+  }
+}
+
 const getFiles = filePath => new Promise((resolve, reject) => {
   const isDir = (file) => new Promise((resolve, reject) => {
     const fullPath = path.join(filePath, file);
 
     fs.stat(fullPath, (err, stat) => {
       const f = fullPath.replace(`${BUILD_DIR}/`, ``);
-      return resolve(stat && stat.isFile() ? `${f}` : null);
+      return resolve(stat && stat.isFile() ? `${f}` : getFiles(fullPath));
     });
   });
 
@@ -30,7 +45,7 @@ const getFiles = filePath => new Promise((resolve, reject) => {
 const process = files => {
   const replacement = files.reduce((str, file) => {
     return `${str}
-  '/${file}',`;
+  '${file}',`;
   }, `const buildFiles = [`);
 
   const swFile = fs.readFileSync(path.resolve(SERVICE_WORKER), {encoding: 'utf8'});
@@ -39,21 +54,11 @@ const process = files => {
   fs.writeFileSync(path.resolve(BUILD_DIR, SERVICE_WORKER), swFile.replace(search, `${replacement}];`));
 };
 
-// process(BUILD_DIR)
+(async () => {
+  const files = [];
+  for await (const f of getEntries(BUILD_DIR)) {
+    files.push(f.replace(BUILD_DIR, ''));
+  }
 
-Promise.all([
-  getFiles(BUILD_DIR),
-  getFiles(`${BUILD_DIR}/src/css`)
-])
-.then(([a, b]) => {
-  process(a.concat(b));
-
-  const [cssPath] = b;
-
-  const indexFile = fs.readFileSync(path.resolve(BUILD_DIR, INDEX), {encoding: 'utf8'});
-  const search = `<!-- STYLES -->`;
-  const replacement = `<link rel="stylesheet" href="${cssPath}">`;
-
-  fs.writeFileSync(path.resolve(BUILD_DIR, INDEX), indexFile.replace(search, replacement));
-});
-// console.log(`${BUILD_DIR}/src/css`);
+  process(files);
+})();
