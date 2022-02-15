@@ -1,4 +1,4 @@
-const version = 98;
+const version = 99;
 const buildFiles = [];
 
 const staticFiles = [

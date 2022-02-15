@@ -67,6 +67,10 @@ module.exports = {
             to: '../dist/service-worker.js'
           },
           {
+            from: 'index.js',
+            to: '../dist/index.js'
+          },
+          {
             from: 'node_modules/@dannymoerkerke/material-webcomponents/src/material-dropdown.js',
             to: '../dist/node_modules/@dannymoerkerke/material-webcomponents/src/material-dropdown.js'
           }
