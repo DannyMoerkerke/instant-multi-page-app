@@ -205,18 +205,23 @@ const installHandler = e => {
 
   self.skipWaiting();
 
-  e.waitUntil(async function() {
-    await createIndexedDB(IDBConfig);
+  e.waitUntil(
+    caches.open(cacheName)
+    .then(cache => cache.addAll(filesToCache))
+  );
 
-    const cache = await caches.open(cacheName);
-    await cache.addAll(filesToCache);
-
-    for (const {url, compile} of routes.filter(({prerender}) => prerender)) {
-      const html = await compile();
-
-      cacheHtmlResponse({url, html});
-    }
-  }());
+  // e.waitUntil(async function() {
+  //   await createIndexedDB(IDBConfig);
+  //
+  //   const cache = await caches.open(cacheName);
+  //   await cache.addAll(filesToCache);
+  //
+  //   for (const {url, compile} of routes.filter(({prerender}) => prerender)) {
+  //     const html = await compile();
+  //
+  //     cacheHtmlResponse({url, html});
+  //   }
+  // }());
 };
 
 const activateHandler = e => {
