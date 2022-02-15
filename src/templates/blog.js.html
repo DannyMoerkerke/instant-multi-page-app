@@ -1,19 +1,4 @@
-<script>
-  (async () => {
-    const apiUrl = 'https://ry5z3rkdza.execute-api.us-east-1.amazonaws.com/production/blogpostings/writer/danny';
-    const compile = data => `${data.map(({title, intro, body}) => `<article>${title} ${intro} ${body}</article>`).join('')}`;
-
-    const response = await fetch(apiUrl);
-    console.log(response);
-    const data = await response.json();
-    const html = compile(data);
-
-    const outlet = document.querySelector('#content');
-    outlet.querySelector('p').remove();
-
-    outlet.insertAdjacentHTML('beforeend', html);
-  })();
-</script>
+<script></script>
 
 </body>
 </html>

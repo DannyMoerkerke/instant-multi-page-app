@@ -1,9 +1,7 @@
-
-const version = 83;
+const version = 96;
 const buildFiles = [];
 
 const staticFiles = [
-  '/readablestream',
   'index.html',
   '/index.js',
   'src/css/styles.css',
@@ -68,9 +66,12 @@ const routes = [
     script: '/src/templates/images.js.html'
   },
   {
-    url: '/blog/',
+    url: '/blog',
+    prerender: true,
     apiUrl: 'https://ry5z3rkdza.execute-api.us-east-1.amazonaws.com/production/blogpostings/writer/danny',
-    compile: data => {
+    compile: async () => {
+      const data = await (await fetch('https://ry5z3rkdza.execute-api.us-east-1.amazonaws.com/production/blogpostings/writer/danny')).json();
+
       return `
         <main>
           <section id="content">
@@ -78,8 +79,8 @@ const routes = [
             <p>
               <em>
                 This page contains twelve of my blog posting which are fetched dynamically and then combined into
-                one large HTML page. After the first render it is cached and served from IndexedDB for subsequent 
-                renders.
+                one large HTML page while the Service Worker is installing. It is then served from IndexedDB for 
+                subsequent renders.
               </em>
             </p>
             ${data.map(({title, intro, body}) => `<article>${title} ${intro} ${body}</article>`).join('')}
@@ -96,7 +97,7 @@ const IDBConfig = {
   name: 'templates_idb',
   version,
   store: {
-    name: 'pages',
+    name: `pages-${version}`,
     keyPath: 'url'
   }
 };
@@ -112,6 +113,8 @@ const createIndexedDB = ({name, version, store}) => {
         db.createObjectStore(store.name, {keyPath: store.keyPath});
         log('create objectstore', store.name);
       }
+
+      [...db.objectStoreNames].filter((name) => name !== store.name).forEach((name) => db.deleteObjectStore(name));
     };
 
     request.onsuccess = () => resolve(request.result);
@@ -150,7 +153,7 @@ const cacheHtmlResponse = async response => {
   }
 };
 
-const getCachedHtmlResponse = ({url, compile, apiUrl}) => {
+const getCachedHtmlResponse = ({url, compile}) => {
   log('finding cached HTML response', url);
 
   return new Promise((resolve, reject) => {
@@ -168,8 +171,7 @@ const getCachedHtmlResponse = ({url, compile, apiUrl}) => {
         else {
           log('compiling html response');
 
-          const data = await (await fetch(apiUrl)).json();
-          html = compile(data);
+          html = compile();
 
           cacheHtmlResponse({url, html});
         }
@@ -187,8 +189,6 @@ const getCachedHtmlResponse = ({url, compile, apiUrl}) => {
 };
 
 const getStreamedHtmlResponse = (url, routeMatch) => {
-  log('finding cached HTML response', url);
-
   const stream = new ReadableStream({
     async start(controller) {
       const pushToStream = stream => {
@@ -234,23 +234,27 @@ const installHandler = e => {
 
   self.skipWaiting();
 
-  e.waitUntil(caches.open(cacheName)
-  .then(cache => cache.addAll(filesToCache)));
+  e.waitUntil(async function() {
+    await createIndexedDB(IDBConfig);
+
+    const cache = await caches.open(cacheName);
+    await cache.addAll(filesToCache);
+
+    for (const {url, compile} of routes.filter(({prerender}) => prerender)) {
+      const html = await compile();
+
+      cacheHtmlResponse({url, html});
+    }
+  }());
 };
 
 const activateHandler = e => {
   log('[ServiceWorker] Activate');
 
-  if(self.indexedDB) {
-    createIndexedDB(IDBConfig);
-  }
-
   e.waitUntil(async function() {
     const keyList = await caches.keys();
     await Promise.all(keyList.map(key => key !== cacheName ? caches.delete(key) : Promise.resolve()));
   }());
-
-  return self.clients.claim();
 };
 
 const isModuleRequest = ({credentials, mode}) => credentials !== 'include' && mode !== 'no-cors';
@@ -260,11 +264,9 @@ const fetchHandler = async e => {
   const request = isModuleRequest(e.request) ? new Request(url, {credentials: 'include', mode: 'no-cors'}) : e.request;
   const {pathname} = new URL(url);
   const routeMatch = routes.find(({url}) => url === pathname);
-  console.log(routeMatch, url, pathname);
-  log('[Service Worker] Fetch', url, method);
+  // log('[Service Worker] Fetch', url, method);
 
   if(routeMatch) {
-    log('getting cached HTML response');
     e.respondWith(getStreamedHtmlResponse(url, routeMatch));
   }
   else {
@@ -279,10 +281,10 @@ const fetchHandler = async e => {
       // request.mode === 'navigate' ? caches.match(request) :
       caches.match(e.request)
       .then(response => {
-        response ? log('from cache', url) : log('not cached, fetching', url);
+        // response ? log('from cache', url) : log('not cached, fetching', url);
         return response ? response : fetch(e.request);
       })
-      .catch(err => console.error('fetch error:', err))
+      .catch(err => console.log('fetch error:', err, url))
     );
   }
 };
