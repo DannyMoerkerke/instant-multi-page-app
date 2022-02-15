@@ -1,4 +1,4 @@
-const version = 105;
+const version = 106;
 const buildFiles = [];
 
 const staticFiles = [
@@ -203,25 +203,17 @@ const getStreamedHtmlResponse = (url, routeMatch) => {
 const installHandler = e => {
   log('[ServiceWorker] Install');
 
-  self.skipWaiting();
+  e.waitUntil(async function() {
+    const cache = await caches.open(cacheName);
+    await cache.addAll(filesToCache);
+    await createIndexedDB(IDBConfig);
 
-  e.waitUntil(
-    caches.open(cacheName)
-    .then(cache => cache.addAll(filesToCache))
-  );
+    for (const {url, compile} of routes.filter(({prerender}) => prerender)) {
+      const html = await compile();
 
-  // e.waitUntil(async function() {
-  //   await createIndexedDB(IDBConfig);
-  //
-  //   const cache = await caches.open(cacheName);
-  //   await cache.addAll(filesToCache);
-  //
-  //   for (const {url, compile} of routes.filter(({prerender}) => prerender)) {
-  //     const html = await compile();
-  //
-  //     cacheHtmlResponse({url, html});
-  //   }
-  // }());
+      cacheHtmlResponse({url, html});
+    }
+  }());
 };
 
 const activateHandler = e => {
