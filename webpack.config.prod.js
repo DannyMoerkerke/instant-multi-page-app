@@ -6,7 +6,7 @@ module.exports = {
   mode: 'production',
   // devtool: 'source-map',
   entry: {
-    bundle: './index.js'
+    bundle: './src/js/index.js'
   },
   output: {
     path: path.join(__dirname, 'dist'),

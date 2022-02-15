@@ -1,37 +1,8 @@
-const version = 96;
+const version = 98;
 const buildFiles = [];
 
 const staticFiles = [
-  'index.html',
-  '/index.js',
-  'src/css/styles.css',
-  'src/img/IMG_0791.png',
-  'src/img/IMG_0829.png',
-  'src/img/IMG_0848.png',
-  'src/img/IMG_0860.png',
-  'src/img/IMG_0924.png',
-  'src/img/IMG_0927.png',
-  'src/img/IMG_0955.png',
-  'src/img/IMG_0966.png',
-  'src/img/service-worker.png',
-  'src/img/readablestream.png',
-  'src/img/github.svg',
-  'src/templates/header.html',
-  'src/templates/footer.html',
-  'src/templates/home.html',
-  'src/templates/home.js.html',
-  'src/templates/readablestream.html',
-  'src/templates/readablestream.js.html',
-  'src/templates/serviceworker.html',
-  'src/templates/serviceworker.js.html',
-  'src/templates/images.html',
-  'src/templates/images.js.html',
-  'blog/index.html',
-  'images/index.html',
-  'readablestream/index.html',
-  'serviceworker/index.html',
-  'https://fonts.googleapis.com/icon?family=Material+Icons',
-  '/node_modules/@dannymoerkerke/material-webcomponents/src/material-dropdown.js'
+  'https://fonts.googleapis.com/icon?family=Material+Icons'
 ];
 
 const filesToCache = [
