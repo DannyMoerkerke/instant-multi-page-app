@@ -69,10 +69,6 @@ module.exports = {
           {
             from: 'index.js',
             to: '../dist/index.js'
-          },
-          {
-            from: 'node_modules/@dannymoerkerke/material-webcomponents/src/material-dropdown.js',
-            to: '../dist/node_modules/@dannymoerkerke/material-webcomponents/src/material-dropdown.js'
           }
         ]
       }
