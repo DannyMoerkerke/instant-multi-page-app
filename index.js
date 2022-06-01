@@ -1,3 +1,5 @@
+import './src/js/material-dropdown.js';
+
 if('serviceWorker' in navigator) {
   navigator.serviceWorker
   .register('./service-worker.js');
@@ -10,4 +12,3 @@ if('serviceWorker' in navigator) {
   });
 }
 
-import './node_modules/@dannymoerkerke/material-webcomponents/src/material-dropdown.js';

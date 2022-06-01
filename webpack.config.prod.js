@@ -6,7 +6,7 @@ module.exports = {
   mode: 'production',
   // devtool: 'source-map',
   entry: {
-    bundle: './index.js'
+    bundle: './src/js/index.js'
   },
   output: {
     path: path.join(__dirname, 'dist'),
@@ -54,26 +54,7 @@ module.exports = {
     }),
     new CopyPlugin({
         patterns: [
-          // {
-          //   from: 'blog/**/*',
-          //   to: '../dist/'
-          // },
-          // {
-          //   from: 'contact/**/*',
-          //   to: '../dist/'
-          // },
-          // {
-          //   from: 'images/**/*',
-          //   to: '../dist/'
-          // },
-          // {
-          //   from: 'readablestream/**/*',
-          //   to: '../dist/'
-          // },
-          // {
-          //   from: 'serviceworker/**/*',
-          //   to: '../dist/'
-          // },
+
           {
             from: 'src/**/*',
             to: '../dist/',
@@ -86,8 +67,8 @@ module.exports = {
             to: '../dist/service-worker.js'
           },
           {
-            from: 'node_modules/@dannymoerkerke/material-webcomponents/src/material-dropdown.js',
-            to: '../dist/node_modules/@dannymoerkerke/material-webcomponents/src/material-dropdown.js'
+            from: 'index.js',
+            to: '../dist/index.js'
           }
         ]
       }
