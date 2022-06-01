@@ -10,6 +10,7 @@
     <link rel='shortcut icon' type='image/x-icon' href='favicon.ico'>
     <link rel="stylesheet" href="src/css/styles.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script async src="https://ga.jspm.io/npm:es-module-shims@1.5.5/dist/es-module-shims.js"></script>
   </head>
   <body>
     <header>
@@ -35,7 +36,7 @@
       </nav>
     </header>
 <main>
-  <section id="content">
+  <section id="content" class="init">
     <h2>Blog</h2>
 
     <p>Loading postings...</p>
@@ -43,8 +44,27 @@
 </main>
       <footer id="main-footer"></footer>
 
-      <script type="module" src="index.js"></script>
-<script></script>
+      <script type="module" src="../index.js"></script>
+<script>
+  (async () => {
+    const outlet = document.querySelector('#content');
+
+    if(outlet.classList.contains('init')) {
+      console.log('fetch postings');
+      const apiUrl = 'https://ry5z3rkdza.execute-api.us-east-1.amazonaws.com/production/blogpostings/writer/danny';
+      const compile = data => `${data.map(({title, intro, body}) => `<article>${title} ${intro} ${body}</article>`).join('')}`;
+      const data = await (await fetch(apiUrl)).json();
+      const html = compile(data);
+
+      outlet.querySelector('p').remove();
+      outlet.classList.remove('init');
+      outlet.insertAdjacentHTML('beforeend', html);
+    }
+    else {
+      console.log('postings already fetched');
+    }
+  })();
+</script>
 
 </body>
 </html>

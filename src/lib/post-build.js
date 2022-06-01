@@ -1,15 +1,15 @@
-const fs = require('fs');
-const path = require('path');
+// const fs = require('fs');
+// const path = require('path');
 
-// import fs from 'fs';
-// import path from 'path';
+import fs from 'fs';
+import path from 'path';
 
 const SERVICE_WORKER = 'service-worker.js';
 const INDEX = 'index.html';
 const BUILD_DIR = path.resolve('dist');
 
-const { resolve } = require('path');
-const { readdir } = require('fs').promises;
+const { resolve } = path;
+const { readdir } = fs.promises;
 
 async function* getEntries(dir) {
   const dirents = await readdir(dir, { withFileTypes: true });

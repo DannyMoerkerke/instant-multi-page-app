@@ -2,12 +2,15 @@
   "name": "instant-multi-page-app",
   "version": "0.0.1",
   "description": "A demo of a blazing fast multi-page app using modern web technology",
+  "type": "module",
   "scripts": {
-    "start": "ws -p 9090",
-    "start:build": "ws -p 9090 -d dist",
+    "start": "wds --watch --app-index index.html",
+    "serve:build": "ws -p 9090 -d dist",
     "webpack": "webpack --config webpack.config.prod.js -p",
+    "copy": "cp -R src/ dist/src && cp service-worker.js dist && cp index.js dist && cp index.html dist && cp -R blog/ dist/blog && cp -R images/ dist/images && cp -R readablestream/ dist/readablestream && cp -R serviceworker/ dist/serviceworker",
+    "concat": "node concat-files.js",
     "prebuild": "rm -rf dist",
-    "build": "npm run webpack",
+    "build": "mkdir dist && npm run concat && npm run copy",
     "postbuild": "node src/lib/post-build.js"
   },
   "repository": {
@@ -21,10 +24,10 @@
   },
   "homepage": "https://github.com/DannyMoerkerke/instant-multi-page-app#readme",
   "devDependencies": {
+    "@web/dev-server": "^0.1.31",
     "local-web-server": "^4.2.1"
   },
   "dependencies": {
-    "@aws-amplify/core": "^3.7.0",
     "@dannymoerkerke/material-webcomponents": "^1.2.10",
     "copy-webpack-plugin": "^6.1.1",
     "html-webpack-plugin": "^4.5.0",
