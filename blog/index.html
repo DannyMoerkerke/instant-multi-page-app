@@ -50,7 +50,6 @@
     const outlet = document.querySelector('#content');
 
     if(outlet.classList.contains('init')) {
-      console.log('fetch postings');
       const apiUrl = 'https://ry5z3rkdza.execute-api.us-east-1.amazonaws.com/production/blogpostings/writer/danny';
       const compile = data => `${data.map(({title, intro, body}) => `<article>${title} ${intro} ${body}</article>`).join('')}`;
       const data = await (await fetch(apiUrl)).json();
@@ -59,9 +58,6 @@
       outlet.querySelector('p').remove();
       outlet.classList.remove('init');
       outlet.insertAdjacentHTML('beforeend', html);
-    }
-    else {
-      console.log('postings already fetched');
     }
   })();
 </script>
