@@ -1,9 +1,4 @@
 export class MaterialDropdown extends HTMLElement {
-
-  static get observedAttributes() {
-    return ['open'];
-  }
-
   constructor() {
     super();
 
@@ -75,7 +70,7 @@ export class MaterialDropdown extends HTMLElement {
           opacity: inherit;
         }
 
-        #dropdown-menu-container.open {
+        :host([open]) #dropdown-menu-container {
           animation-name: menu-open;
           animation-duration: .2s;
           animation-fill-mode: forwards;
@@ -120,6 +115,7 @@ export class MaterialDropdown extends HTMLElement {
     this.menuContainer = this.shadowRoot.querySelector('#dropdown-menu-container');
     this.menu = this.shadowRoot.querySelector('#dropdown-menu');
     this.iconSlot = this.shadowRoot.querySelector('slot[name="icon"]');
+    this.menuInitialized = false;
   }
 
   connectedCallback() {
@@ -138,18 +134,17 @@ export class MaterialDropdown extends HTMLElement {
     this.setupMenu();
 
     this.container.addEventListener('mousedown', this.handleClick.bind(this));
-    this.icon.addEventListener('blur', this.closeMenu.bind(this));
+    this.icon.addEventListener('blur',() => {
+      setTimeout(() => this.closeMenu(), 100);
+    });
   }
 
-  attributeChangedCallback(attr) {
-    if(attr === 'open') {
-      if(this.hasAttribute('open')) {
-        this.menuContainer.classList.add('open');
-      }
-      else {
-        this.menuContainer.classList.remove('open');
-      }
-    }
+  get open() {
+    return this.hasAttribute('open');
+  }
+
+  set open(isOpen) {
+    isOpen ? this.setAttribute('open', '') : this.removeAttribute('open');
   }
 
   disconnectedCallback() {
@@ -158,12 +153,21 @@ export class MaterialDropdown extends HTMLElement {
 
   setupMenu() {
     const {width, height} = this.shadowRoot.querySelector('#dropdown-menu').getBoundingClientRect();
+
+    // if height = 0 then the dropdown is probably hidden and the menu dimensions cannot be determined
+    // this.menuInitialized will be false and setupMenu() will be called when the menu is opened with openMenu()
+    if(height === 0) {
+      return;
+    }
+
     this.menuContainer.style.setProperty('--menu-height', `${height}px`);
     this.menuContainer.style.setProperty('--menu-width', `${width}px`);
 
     const {x, width: w} = this.menu.getBoundingClientRect();
 
     x + w >= screen.width ? this.menuContainer.style.right = 0 : this.menuContainer.style.left = 0;
+
+    this.menuInitialized = true;
   }
 
   setData(data, {value, label} = {value: 'value', label: 'label'}) {
@@ -171,16 +175,16 @@ export class MaterialDropdown extends HTMLElement {
   }
 
   openMenu() {
-    this.setAttribute('open', '');
-    this.menuContainer.classList.add('open');
+    // if the menu is not initialized yet, initialize it now
+    if(!this.menuInitialized) {
+      this.setupMenu();
+    }
+
+    this.open = true;
   }
 
   closeMenu() {
-    setTimeout(() => {
-      this.removeAttribute('open');
-      this.open = false;
-      this.menuContainer.classList.remove('open');
-    });
+    this.open = false;
   }
 
   handleClick(e) {
@@ -191,7 +195,7 @@ export class MaterialDropdown extends HTMLElement {
 
     if(option) {
       this.notifyChange(option.getAttribute('value'));
-      this.closeMenu();
+      setTimeout(() => this.closeMenu(), 100);
     }
     else if(icon) {
       this.open = !this.open;
@@ -215,4 +219,6 @@ export class MaterialDropdown extends HTMLElement {
   }
 }
 
-customElements.define('material-dropdown', MaterialDropdown);
+if(!customElements.get('material-dropdown')) {
+  customElements.define('material-dropdown', MaterialDropdown);
+}
