@@ -31,9 +31,9 @@ const filesToCache = [
   ...staticFiles,
 ];
 
-const version = 53;
+const version = 54;
 const cacheName = `html_cache`;
-const debug = true;
+const debug = false;
 
 const log = debug ? console.log.bind(console) : () => {};
 
