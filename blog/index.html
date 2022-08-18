@@ -10,6 +10,7 @@
     <link rel='shortcut icon' type='image/x-icon' href='favicon.ico'>
     <link rel="stylesheet" href="src/css/styles.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script async src="https://ga.jspm.io/npm:es-module-shims@1.5.5/dist/es-module-shims.js"></script>
   </head>
   <body>
     <header>
@@ -19,45 +20,47 @@
           <li slot="option"><a href="/">Home</a></li>
           <li slot="option"><a href="/readablestream">Readable Stream</a></li>
           <li slot="option"><a href="/serviceworker">Service Worker</a></li>
-          <li slot="option"><a href="/contact">Contact</a></li>
           <li slot="option"><a href="/images">Images</a></li>
           <li slot="option"><a href="/blog">Blog</a></li>
         </material-dropdown>
+        <a href="https://github.com/DannyMoerkerke/instant-multi-page-app" target="_blank" rel="noopener" id="github">
+          <img src="src/img/github.svg" />
+        </a>
         <ul>
           <li><a href="/">Home</a></li>
           <li><a href="/readablestream">Readable Stream</a></li>
           <li><a href="/serviceworker">Service Worker</a></li>
-          <li><a href="/contact">Contact</a></li>
           <li><a href="/images">Images</a></li>
           <li><a href="/blog">Blog</a></li>
         </ul>
       </nav>
     </header>
+<main>
+  <section id="content" class="init">
+    <h2>Blog</h2>
 
-    <main>
-      <section id="content">
-        <h2>Blog</h2>
+    <p>Loading postings...</p>
+  </section>
+</main>
+      <footer id="main-footer"></footer>
 
-        <p>Loading postings...</p>
-      </section>
-    </main>
+      <script type="module" src="../index.js"></script>
+<script>
+  (async () => {
+    const outlet = document.querySelector('#content');
 
-    <footer></footer>
+    if(outlet.classList.contains('init')) {
+      const apiUrl = 'https://ry5z3rkdza.execute-api.us-east-1.amazonaws.com/production/blogpostings/writer/danny';
+      const compile = data => `${data.map(({title, intro, body}) => `<article>${title} ${intro} ${body}</article>`).join('')}`;
+      const data = await (await fetch(apiUrl)).json();
+      const html = compile(data);
 
-    <script>
-      (async () => {
-        const apiUrl = 'https://3jrnxopv87.execute-api.us-east-1.amazonaws.com/production/blogpostings/writer/danny';
-        const compile = data => `${data.map(({title, intro, body}) => `<article>${title} ${intro} ${body}</article>`).join('')}`;
-        const data = await (await fetch(apiUrl)).json();
-        const html = compile(data);
+      outlet.querySelector('p').remove();
+      outlet.classList.remove('init');
+      outlet.insertAdjacentHTML('beforeend', html);
+    }
+  })();
+</script>
 
-        const outlet = document.querySelector('#content');
-        outlet.querySelector('p').remove();
-
-        outlet.insertAdjacentHTML('beforeend', html);
-      })();
-    </script>
-
-    <script type="module" src="src/js/index.js"></script>
-  </body>
+</body>
 </html>

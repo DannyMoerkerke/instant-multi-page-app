@@ -15,10 +15,18 @@ header, footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100px;
+  height: 70px;
   background-color: #337ab7;
   padding: 10px;
   color: #ffffff;
+}
+
+material-dropdown {
+  display: none;
+}
+
+material-dropdown:defined {
+  display: block;
 }
 
 @media screen and (min-width: 1024px) {
@@ -38,17 +46,26 @@ header, footer {
   }
 }
 nav {
+  display: flex;
+  justify-content: space-between;
   width: 85%;
   position: relative;
 }
 material-dropdown {
   --menu-width: 200px;
 }
+#github {
+  width: 24px;
+}
 @media screen and (min-width: 1024px) {
   nav {
+    display: block;
     width: 70%;
   }
-  material-dropdown {
+  material-dropdown:defined {
+    display: none;
+  }
+  #github {
     display: none;
   }
 }
@@ -130,6 +147,8 @@ code {
 img {
   max-width: 100%;
   height: auto;
+  content-visibility: auto;
+  contain-intrinsic-size: 600px;
 }
 @media screen and (min-width: 1024px) {
   img {

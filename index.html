@@ -19,124 +19,109 @@
           <li slot="option"><a href="/">Home</a></li>
           <li slot="option"><a href="/readablestream">Readable Stream</a></li>
           <li slot="option"><a href="/serviceworker">Service Worker</a></li>
-          <li slot="option"><a href="/contact">Contact</a></li>
           <li slot="option"><a href="/images">Images</a></li>
           <li slot="option"><a href="/blog">Blog</a></li>
         </material-dropdown>
+        <a href="https://github.com/DannyMoerkerke/instant-multi-page-app" target="_blank" rel="noopener" id="github">
+          <img src="src/img/github.svg" />
+        </a>
         <ul>
           <li><a href="/">Home</a></li>
           <li><a href="/readablestream">Readable Stream</a></li>
           <li><a href="/serviceworker">Service Worker</a></li>
-          <li><a href="/contact">Contact</a></li>
           <li><a href="/images">Images</a></li>
           <li><a href="/blog">Blog</a></li>
         </ul>
       </nav>
     </header>
+<main>
+  <section id="content">
+    <h2>An instant multi-page app</h2>
 
-    <main>
-      <section id="content">
-        <h2>An instant multi-page app</h2>
+    <p>
+      This is a demo of a instantly loading multi-page app, using modern web technology like Service Worker,
+      ReadableStream and CSS Containment.
+    </p>
 
-        <p>
-          This is a demo of a instantly loading multi-page app, using modern web technology like Service Worker,
-          ReadableStream,
-          CSS Containment and Portals.
-        </p>
+    <p>
+      The purpose is to demonstrate that a multi-page app can load just as fast as a single-page app, without all the
+      added complexity that a single-page app brings.
+    </p>
 
-        <p>
-          The purpose is to demonstrate that a multi-page app can load just as fast as a single-page app, without all
-          the
-          added complexity that a single-page app brings.
-        </p>
+    <p>
+      Each request is intercepted by the Service Worker which then constructs each page from a header, footer and the
+      page content. These parts are all separate HTML templates that are fetched separately and then put together to
+      form
+      a page.
+    </p>
 
-        <p>
-          Each request is intercepted by the Service Worker which then constructs each page from a header, footer and
-          the
-          page content. These parts are all separate HTML templates that are fetched separately and then put together to
-          form
-          a page.
-        </p>
+    <p>
+      To make sure that content is shown to the user as soon as possible, a ReadableStream is used to stream content to
+      the browser. This means that the browser doesn't need to wait for the whole response to arrive, but can start
+      rendering content as soon as it becomes available.
+    </p>
 
-        <p>
-          To make sure that content is shown to the user as soon as possible, a ReadableStream is used to stream content
-          to
-          the browser. This means that the browser doesn't need to wait for the whole response to arrive, but can start
-          rendering content as soon as it becomes available.
-        </p>
+    <p>
+      The Service Worker also caches all assets locally so these no longer need to be fetched from the network.
+    </p>
 
-        <p>
-          The Service Worker also caches all assets locally so these no longer need to be fetched from the network.
-        </p>
+    <p>
+      The result is that each page loads instantly, just like a single-page app, even though the browser performs a full
+      page reload for each page.
+    </p>
 
-        <p>
-          The result is that each page loads instantly, just like a single-page app, even though the browser performs a
-          full
-          page reload for each page.
-        </p>
+    <p>
+      This effectively reduces single-page apps to a polyfill.
+    </p>
+    <h2>How it works</h2>
+    <p>
+      The trick to making multi-page apps blazing fast is utilizing the browser's streaming HTML
+      parser.
+    </p>
+    <p>
+      The browser renders HTML while it downloads. It doesn't need to wait for the whole response to arrive,
+      but it can start rendering content as soon as it becomes available.
+    </p>
+    <p>
+      We can leverage this by having a Service Worker fetch all the content we need and have it stream everything
+      to the browser.
+    </p>
+    <p>
+      The Service Worker will then intercept any outgoing request, fetch the header and footer and then determine
+      which body content it needs to fetch. This can be just a simple HTML template or a combination of a template
+      and some data fetched from the network.
+    </p>
+    <p>
+      The Service Worker will then combine these parts to a full HTML page and return it to the browser. It's like server-side
+      rendering, but it's all done on the client-side in a streaming manner, using a <code>ReadableStream</code>.
+    </p>
+    <p>
+      This means it can start rendering the header of the page while the content and footer are still downloading,
+      giving a <em>huge</em> performance benefit.
+    </p>
 
-        <p>
-          This effectively reduces single-page apps to a polyfill.
-        </p>
-      </section>
-    </main>
+    <p>
+      The demo contains some simple text pages, a page with some large images and a page containing some postings from my
+      blog which are dynamically fetched, combined into a large HTML page and then cached.
+    </p>
 
-    <footer></footer>
+    <p>
+      You will notice that even the large blog page and the page containing the large images load nearly instantly, even
+      though every page requires a full page reload.
+    </p>
+    <p>
+      This is how good browsers are at rendering the DOM <em>if we use the streaming HTML parser</em>.
+    </p>
+    <p>
+      You can find the source code of this demo on
+      <a href="https://github.com/DannyMoerkerke/instant-multi-page-app" target="_blank" rel="noopener">Github</a>.
+    </p>
+  </section>
+</main>
+      <footer id="main-footer"></footer>
 
-    <script>
-      console.log('home');
+      <script type="module" src="../index.js"></script>
+<script></script>
 
-      // const url = 'https://3jrnxopv87.execute-api.us-east-1.amazonaws.com/production/blogpostings/writer/danny';
-      //
-      // fetch(url)
-      // .then(response => response.json())
-      // .then(json => {
-      //   console.log(json);
-      // });
-
-      if(!document.querySelector('#preview-portal')) {
-        document.body.insertAdjacentHTML('beforeend', `<portal id="preview-portal"></portal>`);
-      }
-      const portal = document.querySelector('#preview-portal');
-      const {width: portalWidth} = portal.getBoundingClientRect();
-
-      const showPreview = e => {
-        const li = e.composedPath().find(el => el.tagName && el.tagName.toLowerCase() === 'li');
-
-        if(li) {
-          const link = li.querySelector('a');
-
-          if(link) {
-            portal.style.left = `${li.dataset.x}px`;
-            portal.style.top = `${li.dataset.y}px`;
-            portal.src = link.href;
-            portal.classList.add('visible');
-          }
-        }
-      };
-
-      const removePreview = e => {
-        const li = e.composedPath().find(el => el.tagName && el.tagName.toLowerCase() === 'li');
-
-        if(li) {
-          portal.classList.remove('visible');
-        }
-      };
-
-      const nav = document.querySelector('nav');
-
-      // nav.addEventListener('mouseover', showPreview);
-      // nav.addEventListener('mouseout', removePreview);
-
-      nav.querySelectorAll('li').forEach(li => {
-        const {width, height, top, left} = li.getBoundingClientRect();
-
-        li.dataset.x = (left + width / 2) - portalWidth / 2;
-        li.dataset.y = top + height;
-      });
-
-    </script>
-
-    <script type="module" src="src/js/index.js"></script>
-  </body>
+</body>
 </html>
