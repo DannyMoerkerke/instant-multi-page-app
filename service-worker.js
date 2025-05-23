@@ -1,7 +1,19 @@
-const version = 107;
+const version = 110;
 const buildFiles = [];
 
 const staticFiles = [
+  // '/src/templates/header.html',
+  // '/src/templates/footer.html',
+  // '/src/templates/home.html',
+  // '/src/templates/home.js.html',
+  // '/src/templates/readablestream.html',
+  // '/src/templates/readablestream.js.html',
+  // '/src/templates/serviceworker.html',
+  // '/src/templates/serviceworker.js.html',
+  // '/src/templates/images.html',
+  // '/src/templates/images.js.html',
+  // '/src/templates/blog.html',
+  // '/src/templates/blog.js.html',
   'https://fonts.googleapis.com/icon?family=Material+Icons'
 ];
 
@@ -14,30 +26,39 @@ const cacheName = `html_cache-${version}`;
 const debug = true;
 
 const log = debug ? console.log.bind(console) : () => {};
+const templateFolder = '/src/templates';
+const header = `${templateFolder}/header.html`;
+const footer = `${templateFolder}/footer.html`;
 
 const routes = [
   {
     url: '/',
-    template: '/src/templates/home.html',
-    script: '/src/templates/home.js.html'
+    header,
+    footer,
+    html: [`${templateFolder}/home.html`],
   },
   {
     url: '/readablestream',
-    template: '/src/templates/readablestream.html',
-    script: '/src/templates/readablestream.js.html'
+    header,
+    footer,
+    html: [`${templateFolder}/readablestream.html`],
   },
   {
     url: '/serviceworker',
-    template: '/src/templates/serviceworker.html',
-    script: '/src/templates/serviceworker.js.html'
+    header,
+    footer,
+    html: [`${templateFolder}/serviceworker.html`],
   },
   {
     url: '/images',
-    template: '/src/templates/images.html',
-    script: '/src/templates/images.js.html'
+    header,
+    footer,
+    html: [`${templateFolder}/images.html`],
   },
   {
     url: '/blog',
+    header,
+    footer,
     prerender: true,
     apiUrl: 'https://ry5z3rkdza.execute-api.us-east-1.amazonaws.com/production/blogpostings/writer/danny',
     compile: async () => {
@@ -60,9 +81,6 @@ const routes = [
     }
   }
 ];
-
-const headerTemplate = '/src/templates/header.html';
-const footerTemplate = '/src/templates/footer.html';
 
 const IDBConfig = {
   name: 'templates_idb',
@@ -175,14 +193,10 @@ const getStreamedHtmlResponse = (url, routeMatch) => {
       };
 
       const templates = [
-        caches.match(headerTemplate),
-        routeMatch.template ? caches.match(routeMatch.template) : getCachedHtmlResponse(routeMatch),
-        caches.match(footerTemplate),
+        caches.match(header),
+        ...(routeMatch.html ? routeMatch.html.map(template => caches.match(template)) : getCachedHtmlResponse(routeMatch)),
+        caches.match(footer),
       ];
-
-      if(routeMatch.script) {
-        templates.push(caches.match(routeMatch.script));
-      }
 
       const responses = await Promise.all(templates);
 
@@ -233,7 +247,7 @@ const fetchHandler = async e => {
   const {pathname} = new URL(url);
   const routeMatch = routes.find(({url}) => url === pathname);
   // log('[Service Worker] Fetch', url, method);
-
+  // console.log(routeMatch);
   if(routeMatch) {
     e.respondWith(getStreamedHtmlResponse(url, routeMatch));
   }
